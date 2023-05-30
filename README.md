@@ -1,43 +1,12 @@
 # Docker Desktop for Mac/Windows 开启 Kubernetes
 
-中文 | [English](README_en.md)
 
 说明: 
 
-* 近期从 k8s.gcr.io 拉取镜像的成功率高了很多，如果您通过如下命令 ```docker pull k8s.gcr.io/pause:3.8 ``` 测试镜像拉取成功，本项目相关部分可以直接跳过。
+
 * 需安装 Docker Desktop 的 Mac 或者 Windows 版本，如果没有请下载[下载 Docker CE最新版本](https://store.docker.com/search?type=edition&offering=community)
-* 当前 master 分支已经在 Docker for Mac/Windows 4.13.1 (包含 Docker CE 20.10.20 和 Kubernetes 1.25.2) 版本测试通过
 * 如果需要测试其他版本，请查看 Docker Desktop版本，Docker -> About Docker Desktop
   ![about](images/about.png)
-  * 如Kubernetes版本为 v1.25.4, 请使用下面命令切换 [v1.25.4 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.25.4) ```git checkout v1.25.4```
-  * 如Kubernetes版本为 v1.25.2, 请使用下面命令切换 [v1.25.2 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.25.2) ```git checkout v1.25.2```
-  * 如Kubernetes版本为 v1.25.0, 请使用下面命令切换 [v1.25.0 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.25.0) ```git checkout v1.25.0```
-  * 如Kubernetes版本为 v1.24.2, 请使用下面命令切换 [v1.24.2 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.24.2) ```git checkout v1.24.2```
-  * 如Kubernetes版本为 v1.24.0, 请使用下面命令切换 [v1.24.0 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.24.0) ```git checkout v1.24.0```
-  * 如Kubernetes版本为 v1.23.4, 请使用下面命令切换 [v1.23.4 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.23.4) ```git checkout v1.23.4```
-  * 如Kubernetes版本为 v1.22.5, 请使用下面命令切换 [v1.22.5 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.22.5) ```git checkout v1.22.5```
-  * 如Kubernetes版本为 v1.22.4, 请使用下面命令切换 [v1.22.4 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.22.4) ```git checkout v1.22.4```
-  * 如Kubernetes版本为 v1.21.5, 请使用下面命令切换 [v1.21.5 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.21.5) ```git checkout v1.21.5```
-  * 如Kubernetes版本为 v1.21.4, 请使用下面命令切换 [v1.21.4 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.21.4) ```git checkout v1.21.4```
-  * 如Kubernetes版本为 v1.21.3, 请使用下面命令切换 [v1.21.3 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.21.3) ```git checkout v1.21.3```
-  * 如Kubernetes版本为 v1.21.2, 请使用下面命令切换 [v1.21.2 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.21.2) ```git checkout v1.21.2```
-  * 如Kubernetes版本为 v1.21.1, 请使用下面命令切换 [v1.21.1 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.21.1) ```git checkout v1.21.1```
-  * 如Kubernetes版本为 v1.19.3, 请使用下面命令切换 [v1.19.3 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.19.3) ```git checkout v1.19.3```
-  * 如Kubernetes版本为 v1.19.2, 请使用下面命令切换 [v1.19.2 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.19.2) ```git checkout v1.19.2```
-  * 如Kubernetes版本为 v1.18.8, 请使用下面命令切换 [v1.18.8 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.18.8) ```git checkout v1.18.8```
-  * 如Kubernetes版本为 v1.18.6, 请使用下面命令切换 [v1.18.6 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.18.6) ```git checkout v1.18.6```
-  * 如Kubernetes版本为 v1.18.3, 请使用下面命令切换 [v1.18.3 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.18.3) ```git checkout v1.18.3```
-  * 如Kubernetes版本为 v1.16.5, 请使用下面命令切换 [v1.16.5 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.16.5) ```git checkout v1.16.5```
-  * 如Kubernetes版本为 v1.15.5, 请使用下面命令切换 [v1.15.5 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.15.5) ```git checkout v1.15.5```
-  * 如Kubernetes版本为 v1.15.4, 请使用下面命令切换 [v1.15.4 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.15.4) ```git checkout v1.15.4```
-  * 如Kubernetes版本为 v1.14.8, 请使用下面命令切换 [v1.14.8 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.14.8) ```git checkout v1.14.8```
-  * 如Kubernetes版本为 v1.14.7, 请使用下面命令切换 [v1.14.7 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.14.7) ```git checkout v1.14.7```
-  * 如Kubernetes版本为 v1.14.6, 请使用下面命令切换 [v1.14.6 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.14.6) ```git checkout v1.14.6```
-  * 如Kubernetes版本为 v1.14.3, 请使用下面命令切换 [v1.14.3 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.14.3) ```git checkout v1.14.3```
-  * 如Kubernetes版本为 v1.14.1, 请使用下面命令切换 [v1.14.1 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.14.1) ```git checkout v1.14.1```
-  * 如Kubernetes版本为 v1.13.0, 请使用下面命令切换 [v1.13.0 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.13.0) ```git checkout v1.13.0```
-  * 如Kubernetes版本为 v1.10.11, 请使用下面命令切换 [v1.10.11 分支](https://github.com/AliyunContainerService/k8s-for-docker-desktop/tree/v1.10.11) ```git checkout v1.10.11```
-
 
 注：如果发现K8s版本与您的环境不一致，可以修改```images.properties```文件指明所需镜像版本，欢迎Pull Request。
 
@@ -61,17 +30,6 @@
 ```
 
 
-在Windows上，使用 PowerShell
-
-```powershell
- .\load_images.ps1
-```
-
-说明: 
-* 如果因为安全策略无法执行 PowerShell 脚本，请在 “以管理员身份运行” 的 PowerShell 中执行 ```Set-ExecutionPolicy RemoteSigned``` 命令。 
-* 如果需要，可以通过修改 ```images.properties``` 文件自行加载你自己需要的镜像
-
-
 开启 Kubernetes，并等待 Kubernetes 开始运行
 ![k8s](images/k8s.png)
 
@@ -87,18 +45,12 @@ pred='process matches ".*(ocker|vpnkit).*"
 /usr/bin/log stream --style syslog --level=debug --color=always --predicate "$pred"
 ```
 
-在Windows上:
-
-如果在Kubernetes部署的过程中出现问题，可以在 C:\ProgramData\DockerDesktop下的service.txt 查看Docker日志, 在 C:\Users\yourUserName\AppData\Local\Docker下的log.txt 查看Kubernetes日志 
-
-
 **问题诊断**：
 
 如果看到 Kubernetes一直在启动状态，请参考 
 
 * [Issue 3769(comment)](https://github.com/docker/for-win/issues/3769#issuecomment-486046718) 或 [Issue 3649(comment)](https://github.com/docker/for-mac/issues/3649#issuecomment-497441158)
   * 在macOS上面，执行 ```rm -fr '~/Library/Group\ Containers/group.com.docker/pki'```
-  * 在Windows上面删除 'C:\ProgramData\DockerDesktop\pki' 目录 和 'C:\Users\yourUserName\AppData\Local\Docker\pki' 目录
 * [Issue 1962(comment)](https://github.com/docker/for-win/issues/1962#issuecomment-431091114)
 
 ### 配置 Kubernetes
@@ -123,12 +75,7 @@ kubectl get nodes
 #### 部署 Kubernetes dashboard
 
 ```shell
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.1/aio/deploy/recommended.yaml
-```
-
-或
-
-```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 kubectl apply -f kubernetes-dashboard.yaml
 ```
 
@@ -164,14 +111,6 @@ kubectl config set-credentials docker-desktop --token="${TOKEN}"
 echo $TOKEN
 ```
 
-对于Windows环境
-
-```shell
-$TOKEN=((kubectl -n kube-system describe secret default | Select-String "token:") -split " +")[1]
-kubectl config set-credentials docker-desktop --token="${TOKEN}"
-echo $TOKEN
-```
-
 #### 登录dashboard的时候
 
 ![resource](images/k8s_credentials.png)
@@ -184,14 +123,16 @@ echo $TOKEN
 
 ```
 Mac: $HOME/.kube/config
-Win: %UserProfile%\.kube\config
 ```
 
 点击登陆，进入Kubernetes Dashboard
 
 ### 配置 Ingress
+https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+
 
 说明：如果测试 Istio，不需要安装 Ingress
+
 
 #### 安装 Ingress
 
@@ -201,32 +142,131 @@ Win: %UserProfile%\.kube\config
 ```
 
 安装
-```shell
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
-```
-
-或
 
 ```shell
-kubectl apply -f ingress-nginx-controller.yaml
+没改成 NodePort 方式，（否则 controller 会一直 Pending  1.6.4
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.1/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f ingress-nginx-controller-1.7.1.yaml
 ```
 
 验证
 
 ```shell
-kubectl get pods --all-namespaces -l app.kubernetes.io/name=ingress-nginx
+kubectl get pods -n ingress-nginx
+NAME                                       READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-kfjv5       0/1     Completed   0          9s
+ingress-nginx-admission-patch-bgpkm        0/1     Completed   0          9s
+ingress-nginx-controller-d468dc74f-nttpr   0/1     Running     0          9s
+
+
+#查看生成的openresty配置文件
+kubectl exec -it -n ingress-nginx ingress-nginx-controller-d468dc74f-nttpr bash
+cat /etc/nginx/nginx.conf
+
+kubectl get svc -n ingress-nginx
+kubectl get deploy -n ingress-nginx
+kubectl get replicaset -n ingress-nginx
+kubectl get job -n ingress-nginx
+
+kubectl get all -n ingress-nginx 
+bogon:k8s moyong$ kubectl get all -n ingress-nginx 
+NAME                                            READY   STATUS      RESTARTS   AGE
+pod/ingress-nginx-admission-create-c26dt        0/1     Completed   0          10m
+pod/ingress-nginx-admission-patch-pl6wc         0/1     Completed   0          10m
+pod/ingress-nginx-controller-789f495cbf-rjh7j   1/1     Running     0          10m
+
+NAME                                         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+service/ingress-nginx-controller             LoadBalancer   10.105.195.29    localhost     80:32609/TCP,443:31792/TCP   10m
+service/ingress-nginx-controller-admission   ClusterIP      10.102.103.239   <none>        443/TCP                      10m
+
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ingress-nginx-controller   1/1     1            1           10m
+
+NAME                                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/ingress-nginx-controller-789f495cbf   1         1         1       10m
+
+NAME                                       COMPLETIONS   DURATION   AGE
+job.batch/ingress-nginx-admission-create   1/1           6s         10m
+job.batch/ingress-nginx-admission-patch    1/1           5s         10m
+
+
+```
+
+```
+
+kubectl get deploy -o wide
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES   SELECTOR
+demo   1/1     1            1           29m   httpd        httpd    app=demo
+
+kubectl get rs -o wide
+NAME              DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES   SELECTOR
+demo-75ddddf99c   1         1         1       30m   httpd        httpd    app=demo,pod-template-hash=75ddddf99c
+
+kubectl get pod -o wide --show-labels
+NAME                    READY   STATUS    RESTARTS   AGE   IP           NODE             NOMINATED NODE   READINESS GATES   LABELS
+apple-app               1/1     Running   0          35m   10.1.0.180   docker-desktop   <none>           <none>            app=apple
+demo-75ddddf99c-fxmw7   1/1     Running   0          30m   10.1.0.181   docker-desktop   <none>           <none>            app=demo,pod-template-hash=75ddddf99c
+
+
+kubectl get svc -o wide
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR
+apple-service   ClusterIP   10.101.99.129   <none>        5678/TCP   32m   app=apple
+demo            ClusterIP   10.99.140.87    <none>        80/TCP     27m   app=demo
+kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP    69m   <none>
+curl 10.99.140.87 
+curl 10.101.99.129:5678
+
+
+
 ```
 
 #### 测试示例应用
 
+```
+kubectl run redis --image=redis
+kubectl exec -it redis bash
+kubectl create deployment redis-deployment --image=redis
+kubectl delete pod redis redis-deployment-866c4c6cf9-8z8k5
+redis已经消失了，但是redis-deployment-866c4c6cf9-zskkb换了个名字又出现了！
+```
 
 部署测试应用，详情参见[社区文章](https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html)
 
+本地测试¶
+让我们创建一个简单的网络服务器和相关服务：
 
-```shell
+```
+kubectl create deployment demo --image=httpd --port=80
+kubectl expose deployment demo #用命令生成service
+```
+然后创建一个入口资源。以下示例使用映射到localhost的主机：
+```
+kubectl create ingress demo-localhost --class=nginx \
+  --rule="demo.localdev.me/*=demo:80"
+```
+
+现在，将本地端口转发到入口控制器：
+```
+kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80
+```
+此时，如果您访问http://demo.localdev.me:8080/，您应该会看到一个HTML页面，告诉您“它有效！”。
+
+```
+kubectl get ingress 
+NAME             CLASS   HOSTS              ADDRESS   PORTS   AGE
+demo-localhost   nginx   demo.localdev.me             80      20m
+
+kubectl describe ingress demo-localhost
+```
+
+
+
+```shell FIXME
 kubectl create -f sample/apple.yaml
 kubectl create -f sample/banana.yaml
 kubectl create -f sample/ingress.yaml
+
 ```
 
 测试示例应用
@@ -248,17 +288,15 @@ kubectl delete -f sample/ingress.yaml
 
 #### 删除 Ingress
 
-```shell
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
-```
-
-或
 
 ```shell
-kubectl delete -f ingress-nginx-controller.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.1/deploy/static/provider/cloud/deploy.yaml
+kubectl delete -f ingress-nginx-controller-1.7.1.yaml
 ```
 
-### 安装 Helm
+
+
+### 安装 Helm  TODO
 
 可以根据文档安装 helm v3 https://helm.sh/docs/intro/install/
 在国内由于helm的cdn节点使用的是谷歌云所以可能访问不到，可以参考已存在的官方issue： https://github.com/helm/helm/issues/7028
@@ -273,26 +311,20 @@ brew install helm
 
 # Add helm repo
 helm repo add stable http://mirror.azure.cn/kubernetes/charts/
-
 # Update charts repo
 helm repo update
-```
 
-#### 在Windows上安装
-
-如果在后续使用 helm 安装组件的过程中出现版本兼容问题，可以参考 `通过二进制包安装` 思路安装匹配的版本
-
-```shell
-# Use Chocolatey on Windows
-# 注：安装的时候需要保证网络能够访问googleapis这个域名
-choco install kubernetes-helm
-
-# Change helm repo
-helm repo add stable http://mirror.azure.cn/kubernetes/charts/
-
-# Update charts repo
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
+
+#安装ingress-nginx
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.1/deploy/static/provider/cloud/deploy.yaml
 ```
+
 
 #### 测试 Helm (可选)
 
@@ -315,6 +347,8 @@ helm uninstall wordpress
 ```
 
 ### 配置 Istio
+
+异构集群的互操作性是通过 Kubernetes 实现的。Istio 将容器化和虚拟机负载整合到单个控制平面中，以统一集群内的流量、安全性和可观测性。但是，随着集群数量、网络环境和用户权限变得越来越复杂，需要在 Istio 的控制平面之上构建另一个管理平面（例如 Tetrate 服务桥）进行混合云管理。
 
 说明：Istio Ingress Gateway和Ingress缺省的端口冲突，请移除Ingress并进行下面测试
 
