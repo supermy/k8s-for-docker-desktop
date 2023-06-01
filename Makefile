@@ -61,11 +61,12 @@ k8s-ingress-test1:
 	-kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80 &
 	-curl -H "Host: demo.localdev.me" http://127.0.0.1:8080/
 	kubectl get service ingress-nginx-controller --namespace=ingress-nginx
-	kubectl create ingress demo --class=nginx --rule www.demo.io/=demo:80
-	kubectl create ingress demo --class=nginx --rule www.demo.io/=demo:80   -o yaml --dry-run=client >cmdgen/demo-ingress.yaml
+	kubectl create ingress demo --class=nginx --rule="www.demo.io/=demo:80,tls=tls-secret"
+	kubectl create ingress demo --class=nginx --rule="www.demo.io/=demo:80,tls=tls-secret"   -o yaml --dry-run=client >cmdgen/demo-ingress.yaml
 	-kubectl describe ingress demo
 	sleep 5s
-	curl -H "Host: www.demo.io" http://127.0.0.1/
+	# http-redirect-code = 301 （使用301 进行强制跳转）
+	curl -k -H "Host: www.demo.io" https://127.0.0.1/
 
 k8s-ingress-test1-clean:
 	-kubectl delete deployment demo
@@ -74,7 +75,7 @@ k8s-ingress-test1-clean:
 	-kubectl delete ingress demo
 	-kubectl get all -o wide
 
-k8s-ingress-test2:
+k8s-ingress-test21:
 	-kubectl create deployment apple --image=hashicorp/http-echo --port=5678  -o yaml --dry-run=client >sample/apple-deploy.yaml
 	#add  args:       - "-text=apple"
 	-kubectl expose deployment apple -o yaml --dry-run=client >sample/apple-svc.yaml
@@ -87,7 +88,7 @@ k8s-ingress-test2:
 	kubectl delete deployment apple
 	kubectl delete service apple
 
-k8s-ingress-test88:
+k8s-ingress-test22:
 	-kubectl create -f sample/apple.yaml
 	-kubectl create -f sample/banana.yaml
 	-kubectl create -f sample/ingress.yaml
@@ -102,4 +103,6 @@ k8s-ingress-test88:
 	kubectl delete -f sample/banana.yaml
 	kubectl delete -f sample/ingress.yaml
 
-
+k8s-ssl:
+	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout cert/tls.key -out cert/tls.crt -subj "/C=CN/ST=BJ/L=BeiJing/O=myk8s/OU=System/CN=myk8s/emailAddress=ca@test.com"
+	kubectl create secret tls tls-secret --key cert/tls.key --cert cert/tls.crt
