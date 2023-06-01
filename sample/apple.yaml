@@ -1,24 +1,40 @@
+# kubectl run redis --image=redis
+# kubectl create deployment redis-deployment --image=redis
 kind: Pod
 apiVersion: v1
 metadata:
   name: apple-app
   labels:
-    app: apple
+    app: apple-app
 spec:
   containers:
     - name: apple-app
       image: hashicorp/http-echo
+      ports:
+        - containerPort: 5678
       args:
         - "-text=apple"
+      resources: 
+        limits: 
+          cpu: 100m 
+          memory: 200Mi 
+        requests: 
+          cpu: 100m 
+          memory: 200Mi 
 
 ---
 
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: apple-service
+  labels:
+    app: apple-service
 spec:
   selector:
-    app: apple
+    app: apple-app
   ports:
     - port: 5678 # Default port for image
+      protocol: TCP
+      targetPort: 5678
+

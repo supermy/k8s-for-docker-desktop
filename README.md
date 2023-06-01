@@ -153,7 +153,7 @@ kubectl apply -f ingress-nginx-controller-1.7.1.yaml
 验证
 
 ```shell
-kubectl get pods -n ingress-nginx
+kubectl get all -n ingress-nginx
 NAME                                       READY   STATUS      RESTARTS   AGE
 ingress-nginx-admission-create-kfjv5       0/1     Completed   0          9s
 ingress-nginx-admission-patch-bgpkm        0/1     Completed   0          9s
@@ -164,10 +164,6 @@ ingress-nginx-controller-d468dc74f-nttpr   0/1     Running     0          9s
 kubectl exec -it -n ingress-nginx ingress-nginx-controller-d468dc74f-nttpr bash
 cat /etc/nginx/nginx.conf
 
-kubectl get svc -n ingress-nginx
-kubectl get deploy -n ingress-nginx
-kubectl get replicaset -n ingress-nginx
-kubectl get job -n ingress-nginx
 
 kubectl get all -n ingress-nginx 
 bogon:k8s moyong$ kubectl get all -n ingress-nginx 
@@ -195,29 +191,11 @@ job.batch/ingress-nginx-admission-patch    1/1           5s         10m
 
 ```
 
-kubectl get deploy -o wide
-NAME   READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES   SELECTOR
-demo   1/1     1            1           29m   httpd        httpd    app=demo
-
-kubectl get rs -o wide
-NAME              DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES   SELECTOR
-demo-75ddddf99c   1         1         1       30m   httpd        httpd    app=demo,pod-template-hash=75ddddf99c
-
-kubectl get pod -o wide --show-labels
-NAME                    READY   STATUS    RESTARTS   AGE   IP           NODE             NOMINATED NODE   READINESS GATES   LABELS
-apple-app               1/1     Running   0          35m   10.1.0.180   docker-desktop   <none>           <none>            app=apple
-demo-75ddddf99c-fxmw7   1/1     Running   0          30m   10.1.0.181   docker-desktop   <none>           <none>            app=demo,pod-template-hash=75ddddf99c
-
-
 kubectl get svc -o wide
 NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR
 apple-service   ClusterIP   10.101.99.129   <none>        5678/TCP   32m   app=apple
 demo            ClusterIP   10.99.140.87    <none>        80/TCP     27m   app=demo
 kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP    69m   <none>
-curl 10.99.140.87 
-curl 10.101.99.129:5678
-
-
 
 ```
 
@@ -258,8 +236,37 @@ NAME             CLASS   HOSTS              ADDRESS   PORTS   AGE
 demo-localhost   nginx   demo.localdev.me             80      20m
 
 kubectl describe ingress demo-localhost
+
+
+        upstream upstream_balancer {
+                server 0.0.0.1; # placeholder
+
+                balancer_by_lua_block {
+                        balancer.balance()
+                }
+
+                keepalive 32;
+
+        }
+        在 nginx 配置中确实添加了 一个 server 条目，但该条目中没有具体指出后端的容器地址，而是指向了一个叫 upstream_balancer 的地址，这个 balancer 其实是由 Lua 动态提供路由的。既然没有实际的容器后端在配置文件中进行配置，自然地，服务中容器数量的增减变化也就不必修改 nginx 配置文件了，这就是免 reload 的关键！简单推测，Lua 模块所做的就是维持一个服务到容器的映射关系，动态地提供负载均衡路由。
+
 ```
 
+```
+1，通过指定pod实现端口转发
+
+kubectl port-forward pods/pod-name 443:443 -n ingress-nginx
+
+2，通过指定service实现端口转发
+
+kubectl port-forward svc/service-name 6379:6379
+
+3，通过指定deployment实现端口转发
+
+kubectl port-forward deployment/deployment-name 6379:6379
+
+
+```
 
 
 ```shell FIXME
@@ -272,6 +279,8 @@ kubectl create -f sample/ingress.yaml
 测试示例应用
 
 ```bash
+kubectl port-forward service/apple-service    5678:5678
+
 $ curl -kL http://localhost/apple
 apple
 $ curl -kL http://localhost/banana

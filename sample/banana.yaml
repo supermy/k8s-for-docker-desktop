@@ -1,15 +1,23 @@
+
 kind: Pod
 apiVersion: v1
 metadata:
   name: banana-app
   labels:
-    app: banana
+    app: banana-app
 spec:
   containers:
     - name: banana-app
       image: hashicorp/http-echo
       args:
         - "-text=banana"
+      resources: 
+        limits: 
+          cpu: 100m 
+          memory: 200Mi 
+        requests: 
+          cpu: 100m 
+          memory: 200Mi 
 
 ---
 
@@ -19,6 +27,6 @@ metadata:
   name: banana-service
 spec:
   selector:
-    app: banana
+    app: banana-app
   ports:
     - port: 5678 # Default port for image

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: apple
+  name: apple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apple
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: apple
+    spec:
+      containers:
+      - image: hashicorp/http-echo
+        name: http-echo
+        ports:
+        - containerPort: 5678
+        args:
+        - "-text=apple"
+        resources: {}
+status: {}
