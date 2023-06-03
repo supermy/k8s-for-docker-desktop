@@ -106,3 +106,73 @@ k8s-ingress-test22:
 k8s-ssl:
 	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout cert/tls.key -out cert/tls.crt -subj "/C=CN/ST=BJ/L=BeiJing/O=myk8s/OU=System/CN=myk8s/emailAddress=ca@test.com"
 	kubectl create secret tls tls-secret --key cert/tls.key --cert cert/tls.crt
+
+# 第一个参数是NFS共享目录的路径；
+# 第二个参数是允许共享目录的 网段，这里设置的是本书中的Kubernetes集群机器网段，也可以设置 为“*”以表示不限制。
+# 最后小括号中的参数为权限设置，rw表示允 许读写访问，sync表示所有数据在请求时写入共享目录，insecure 表示NFS通过1024以上的端口进行发送，no_root_squash表示root 用户对根目录具有完全的管理访问权限，no_subtree_check表示 不检查父目录的权限。
+k8s-nfs:
+	# sudo echo "/Users/moyong/project/k8s/data -alldirs -maproot=root:wheel -network 192.168.0.0 -mask 255.255.255.0">/etc/exports
+	# /Users/moyong/project/k8s/data
+	# *(rw,sync,insecure,no_subtree_check,no_root_squash)
+	# nfs.server.mount.require_resv_port = 0 /etc/nfs.conf k8s中使用添加参数
+	chmod 777 /Users/moyong/project/k8s/data
+	nfsd checkexports
+	sudo nfsd disable
+	sudo nfsd enable
+	sudo nfsd stop
+	sudo nfsd start
+	sudo nfsd status
+	showmount -e localhost
+	showmount -e 192.168.0.107
+	mount -t nfs -o nolock,nfsvers=3,vers=3 localhost:/Users/moyong/project/k8s/data mnt/data/
+	helm upgrade -i nfs stable/nfs-client-provisioner --set nfs.server=192.168.0.107 --set nfs.path=/Users/moyong/project/k8s/data
+
+# K8S支持的卷类型很多，主要分为分布式文件系统、ConfigMap和本地文件系统这几种，其中本地文件系统支持：hostPath和local（
+# Local持久卷基本具备了hostPath的绑定本地文件系统目录的能力和方便性，同时自动具备调度到指定节点的能力，并且可以对持久卷进行管理。
+# 唯一的问题在于，我们还需要手工去对应的节点创建对应的目录和删除对应的目录，这需要结合我们的应用系统来进行统一的设计和管理。
+# 总得来说，对于状态应用程序的部署来说，Local持久卷能够提供分布式存储无法提供的高性能，同时具备了一定的调度的灵活性，是一个不错的选择。
+
+# PV：PV描述的是持久化存储卷，主要定义的是一个持久化存储在宿主机上的目录，比如一个NFS的挂载目录。
+# PVC：PVC描述的是Pod所希望使用的持久化存储的属性，比如，Volume存储的大小、可读写权限等等。
+k8s-vol-local:
+	-kubectl delete pod task-pv-pod
+	-kubectl delete pvc task-pv-claim
+	-kubectl delete pv task-pv-volume
+	kubectl apply -f sample/pv-volume.yaml
+	kubectl apply -f sample/pv-claim.yaml
+	sleep 5s
+	kubectl get pv task-pv-volume
+	kubectl get pvc task-pv-claim
+	kubectl apply -f sample/pv-pod.yaml
+	kubectl get pod task-pv-pod
+	# kubectl exec -it task-pv-pod -- /bin/bash
+	kubectl port-forward pod/task-pv-pod  8088:80 &
+	curl 127.0.0.1:8088/
+	kubectl apply -f sample/nfs-pod.yaml
+
+k8s-vol:
+	kubectl delete -f volume/pvc-nfs-deploy.yaml
+	kubectl delete -f volume/pvc-nfs.yaml
+	# kubectl create configmap my-config --from-file=data/conf.txt
+	kubectl create -f volume/pvc-nfs.yaml
+	kubectl create -f volume/pvc-nfs-deploy.yaml
+	kubectl get pv
+	kubectl get pvc
+	make
+	kubectl port-forward service/nfs-pvc 8080:80 &
+	curl 127.0.0.1:8080
+
+k8s-vol1:
+	rpcinfo -p #查看需要开放的端口
+	showmount -e 192.168.0.107
+	showmount -e localhost
+
+	kubectl apply -f volume/exampledeployfornfs.yaml
+	kubectl get pod -o wide
+	kubectl delete -f volume/exampledeployfornfs.yaml
+
+
+
+
+	
+

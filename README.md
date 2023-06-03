@@ -3,6 +3,10 @@
 
 说明: 
 
+最佳实践：
+    k8s 支持 ssl 集群 负载均衡；
+    k8s volume 绑定 nfs ,解决性能瓶颈与数据共享；
+    k8s=nginx.conf 配置的domain语言；
 
 * 需安装 Docker Desktop 的 Mac 或者 Windows 版本，如果没有请下载[下载 Docker CE最新版本](https://store.docker.com/search?type=edition&offering=community)
 * 如果需要测试其他版本，请查看 Docker Desktop版本，Docker -> About Docker Desktop
